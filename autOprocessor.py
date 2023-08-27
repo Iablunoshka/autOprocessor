@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-# Запуск браузера прокрутка страницы для загрузки мемов
+# Launch the browser scrolling the page to load memes
 driver = webdriver.Edge(executable_path='D:\python\msedgedriver.exe')
 driver.get('https://9gag.com/trending')
 time.sleep(10)
@@ -22,7 +22,7 @@ for i in range(50):
     html.send_keys(Keys.PAGE_DOWN)
     time.sleep(1)
 
-    # Поиск нужных html элементов
+    # Finding the right html elements
     elems = driver.find_elements(By.CSS_SELECTOR, 'div.post-view.video-post')
 
     for elem in elems:
@@ -30,17 +30,17 @@ for i in range(50):
         print(elem)
         videos = elem.find_elements(By.CSS_SELECTOR, 'video')
         if videos:
-            print("Найден элемент <video>")
+            print("Item found <video>")
         else:
-            print("Элемент <video> не найден")
+            print("Item <video> Not Found")
         for video in videos:
             source = video.find_element(By.CSS_SELECTOR, 'source')
             src = source.get_attribute('src')
             if src not in downloaded_videos:
                 downloaded_videos.add(src)
-                print(f"Ссылка на видео: {src}")
+                print(f"Link to the videо: {src}")
 
-                # Генерация уникального имени файла с текущей датой и временем
+                # Generate a unique file name with the current date and time
                 filename = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.webm'
                 path = f'D:\\meme\\{filename}'
 
@@ -48,7 +48,7 @@ for i in range(50):
                 with open(path, 'wb') as file:
                     file.write(response.content)
 
-# Закрытие бруезера и время ожыдания
+# Closing of the Bruezer and Waiting Time
 time.sleep(1)
 driver.quit()
 
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     main()
 
 # Upload to YouTube
-credentials_file = 'D:\\auto\\client_secret_392874847723-kturqftmjtbmrk54q224faq7dbef3gqn.apps.googleusercontent.com.json'
+credentials_file = 'Path_to_your_Json_file'
 flow = InstalledAppFlow.from_client_secrets_file(credentials_file, scopes=['https://www.googleapis.com/auth/youtube.upload'])
 credentials = flow.run_local_server(port=8080)
 youtube = build('youtube', 'v3', credentials=credentials)
